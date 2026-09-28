@@ -10,12 +10,15 @@ dotenv.config({ path: path.join(here, '.env') });
 dotenv.config({ path: path.join(here, '../.env') });
 
 const app = express();
-const { TELEGRAM_BOT_TOKEN: TOKEN, TELEGRAM_CHAT_ID: CHAT, CLIENT_ORIGIN, PORT = 3001 } = process.env;
+const { TELEGRAM_BOT_TOKEN: TOKEN, TELEGRAM_CHAT_ID: CHAT, PORT = 3001 } = process.env;
 const COURSES = ['Mobilografiya + Content Marketing'];
 const SERVICES = ['Content Marketing', 'Mobileography', 'Ikkalasi'];
 
 app.disable('x-powered-by');
-app.use(cors({ origin: CLIENT_ORIGIN || false }));
+
+// CORS ni barcha manbalar uchun ochamiz (Vercel va boshqalar muammosiz ulanishi uchun)
+app.use(cors());
+
 app.use(express.json({ limit: '10kb' }));
 app.use('/api', rateLimit({ windowMs: 10 * 60 * 1000, limit: 10, standardHeaders: true, legacyHeaders: false,
   message: { error: 'Juda ko‘p urinish. Iltimos, birozdan so‘ng qayta urinib ko‘ring.' } }));
@@ -60,6 +63,7 @@ const handle = (kind) => async (req, res) => {
   try { await sendTelegram(out.text); res.json({ ok: true }); }
   catch (e) { console.error(e.message); res.status(502).json({ error: 'Arizani yuborib bo‘lmadi. Iltimos, qayta urinib ko‘ring.' }); }
 };
+
 app.get('/api/health', (_q, res) => res.json({ ok: true, telegramConfigured: Boolean(TOKEN && CHAT) }));
 app.post('/api/applications', handle('course'));
 app.post('/api/project-requests', handle('project'));
@@ -68,6 +72,7 @@ const dist = path.join(path.dirname(fileURLToPath(import.meta.url)), '../client/
 app.use(express.static(dist));
 app.get('*', (_q, res) => res.sendFile(path.join(dist, 'index.html'), (e) => e && res.status(404).end()));
 app.use((e, _q, res, _n) => { console.error(e.message); res.status(400).json({ error: 'So‘rov noto‘g‘ri.' }); });
+
 app.listen(PORT, () => {
   console.log(`EduX server: http://localhost:${PORT}`);
   if (!TOKEN || !CHAT) console.warn('OGOHLANTIRISH: TELEGRAM_BOT_TOKEN yoki TELEGRAM_CHAT_ID topilmadi. server/.env faylini tekshiring.');
