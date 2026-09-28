@@ -63,9 +63,11 @@ function Field({ label, error, children }) {
 }
 const input = 'mt-1 w-full rounded-lg border border-line bg-ink px-4 py-3 text-base text-white placeholder:text-mist/50';
 
+const API_URL = 'https://edux-akademy.onrender.com';
+
 const FORMS = {
-  course: { title: 'Kursga yozilish', url: '/api/applications', fixedCourse: COURSE_NAME, text: ['message', 'Izoh (ixtiyoriy)'] },
-  project: { title: 'Project uchun murojaat', url: '/api/project-requests', brand: true, select: ['service', 'Kerakli xizmat', ['Content Marketing', 'Mobileography', 'Ikkalasi']], text: ['message', 'Project haqida qisqacha ma’lumot'] },
+  course: { title: 'Kursga yozilish', url: `${API_URL}/api/applications`, fixedCourse: COURSE_NAME, text: ['message', 'Izoh (ixtiyoriy)'] },
+  project: { title: 'Project uchun murojaat', url: `${API_URL}/api/project-requests`, brand: true, select: ['service', 'Kerakli xizmat', ['Content Marketing', 'Mobileography', 'Ikkalasi']], text: ['message', 'Project haqida qisqacha ma’lumot'] },
 };
 const validPhone = (p) => { const d = p.replace(/\D/g, ''); return d.length === 12 && d.startsWith('998'); };
 // Doim +998 bilan boshlanadi; qolgan 9 raqam "XX XXX XX XX" shaklida
