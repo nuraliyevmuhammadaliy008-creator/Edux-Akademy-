@@ -67,19 +67,21 @@ const API_URL = 'https://edux-akademy.onrender.com';
 
 const API_URL = 'https://edux-akademy.onrender.com';
 
+const API_URL = 'https://edux-akademy.onrender.com';
+
 const FORMS = {
-  course: {
-    title: 'Kursga yozilish',
-    url: `${API_URL}/api/applications`,
-    fixedCourse: COURSE_NAME,
-    text: ['message', 'Izoh (ixtiyoriy)']
+  course: { 
+    title: 'Kursga yozilish', 
+    url: `${API_URL}/api/applications`, 
+    fixedCourse: COURSE_NAME, 
+    text: ['message', 'Izoh (ixtiyoriy)'] 
   },
-  project: {
-    title: 'Project uchun murojaat',
-    url: `${API_URL}/api/project-requests`,
-    brand: true,
-    select: ['service', 'Kerakli xizmat', ['Content Marketing', 'Mobileography', 'Ikkalasi']],
-    text: ['message', 'Project haqida qisqacha ma’lumot']
+  project: { 
+    title: 'Project uchun murojaat', 
+    url: `${API_URL}/api/project-requests`, 
+    brand: true, 
+    select: ['service', 'Kerakli xizmat', ['Content Marketing', 'Mobileography', 'Ikkalasi']], 
+    text: ['message', 'Project haqida qisqacha ma’lumot'] 
   },
 };
 const validPhone = (p) => { const d = p.replace(/\D/g, ''); return d.length === 12 && d.startsWith('998'); };
